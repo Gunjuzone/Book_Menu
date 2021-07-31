@@ -72,3 +72,10 @@ const menu = [
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
   },
 ];
+
+// Select parent element that will display the contents
+
+const sectionCenter = document.querySelector('.sectio-center');
+window.addEventListener('DOMContentLoaded', function () {
+  console.log('shake and bake');
+});
