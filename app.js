@@ -34,7 +34,7 @@ const menu = [
   {
     id: 5,
     title: 'The Strength in our Scar',
-    category: 'Non-fiction',
+    category: 'Non-Fiction',
     price: 22.99,
     img: './Assets/Book_6.jfif',
     desc: `franzen vegan pabst bicycle rights kickstarter pinterest meditation farm-to-table 90's pop-up `,
@@ -50,7 +50,7 @@ const menu = [
   {
     id: 7,
     title: 'The puppeteer',
-    category: 'Non-fiction',
+    category: 'Non-Fiction',
     price: 8.99,
     img: './Assets/Book_8.jfif',
     desc: `carry jianbing normcore freegan. Viral single-origin coffee live-edge, pork belly cloud bread iceland put a bird `,
@@ -76,32 +76,50 @@ const menu = [
 // Select parent element that will display the contents
 
 const sectionCenter = document.querySelector('.section-center');
-const filterBtns = document.querySelectorAll('.filter-btn');
+const container = document.querySelector('.btn-container');
 
 // Load items
 window.addEventListener('DOMContentLoaded', function () {
   displayMenuItems(menu);
-});
-
-// Filter items
-filterBtns.forEach(function (btns) {
-  btns.addEventListener('click', function (e) {
-    const category = e.currentTarget.dataset.id;
-    // declare a constant to select the menu array and use filter method to sort it
-    const menuCategory = menu.filter(function (menuItem) {
-      // console.log(menuItem.category);
-      if (menuItem.category === category) {
-        return menuItem;
+  const categories = menu.reduce(
+    function (values, item) {
+      if (!values.includes(item.category)) {
+        values.push(item.category);
+      }
+      return values;
+    },
+    ['All']
+  );
+  const categoryBtns = categories
+    .map(function (category) {
+      return ` <button class="filter-btn" type="button" data-id=${category}>
+          ${category}
+        </button>`;
+    })
+    .join('');
+  container.innerHTML = categoryBtns;
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  // Filter items
+  filterBtns.forEach(function (btns) {
+    btns.addEventListener('click', function (e) {
+      const category = e.currentTarget.dataset.id;
+      // declare a constant to select the menu array and use filter method to sort it
+      const menuCategory = menu.filter(function (menuItem) {
+        // console.log(menuItem.category);
+        if (menuItem.category === category) {
+          return menuItem;
+        }
+      });
+      // console.log(menuCategory);
+      if (category === 'All') {
+        displayMenuItems(menu);
+      } else {
+        displayMenuItems(menuCategory);
       }
     });
-    // console.log(menuCategory);
-    if (category === 'All') {
-      displayMenuItems(menu);
-    } else {
-      displayMenuItems(menuCategory);
-    }
   });
 });
+
 function displayMenuItems(menuItems) {
   let displayMenu = menuItems.map(function (item) {
     // console.log(item);
